@@ -1,6 +1,20 @@
 import { useState, useEffect } from 'react'
-import type { Ticket } from '../types/ticket.types'
+import type { Ticket, TicketStatus, TicketPriority } from '../types/ticket.types'
 import { ticketRepository } from '../repositories'
+import styles from './TicketListPage.module.css'
+
+// Textos en español para mostrar en la UI
+const STATUS_LABELS: Record<TicketStatus, string> = {
+  'open': 'Abierto',
+  'in-progress': 'En proceso',
+  'resolved': 'Resuelto',
+}
+
+const PRIORITY_LABELS: Record<TicketPriority, string> = {
+  'low': 'Baja',
+  'medium': 'Media',
+  'high': 'Alta',
+}
 
 function TicketListPage() {
   const [tickets, setTickets] = useState<Ticket[]>([])
@@ -11,13 +25,27 @@ function TicketListPage() {
   }, [])
 
   return (
-    <div>
-      <h2>Lista de tickets</h2>
-      <p>{tickets.length} tickets encontrados</p>
-      <ul>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Tickets de soporte</h2>
+        <span className={styles.count}>{tickets.length} tickets</span>
+      </div>
+
+      <ul className={styles.list}>
         {tickets.map(ticket => (
-          <li key={ticket.id}>
-            <strong>{ticket.title}</strong> — {ticket.status} — {ticket.priority}
+          <li key={ticket.id} className={styles.card}>
+            <div>
+              <p className={styles.cardTitle}>{ticket.title}</p>
+              <p className={styles.cardMeta}>{ticket.category} · {ticket.description.slice(0, 60)}...</p>
+            </div>
+            <div className={styles.badges}>
+              <span className={`${styles.badge} ${styles[`status-${ticket.status}`]}`}>
+                {STATUS_LABELS[ticket.status]}
+              </span>
+              <span className={`${styles.badge} ${styles[`priority-${ticket.priority}`]}`}>
+                {PRIORITY_LABELS[ticket.priority]}
+              </span>
+            </div>
           </li>
         ))}
       </ul>
