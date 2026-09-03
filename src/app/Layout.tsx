@@ -1,16 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom'
+import styles from './Layout.module.css'
 
 function Layout() {
   return (
-    <div>
-        <header>
-            <h1>Helpdesk Lite</h1>
-        </header>
-        <main>
-            <Outlet />
-        </main>
+    <div className={styles.wrapper}>
+      <header className={styles.header}>
+        <span className={styles.logo}>HelpDesk Lite</span>
+      </header>
+      <main className={styles.main}>
+        <Outlet />
+      </main>
     </div>
-  );
+  )
 }
 
-export default Layout;
+export default Layout
