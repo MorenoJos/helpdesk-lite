@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { Ticket, TicketStatus, TicketPriority } from '../types/ticket.types'
 import { ticketRepository } from '../repositories'
 import styles from './TicketListPage.module.css'
 
-// Textos en español para mostrar en la UI
 const STATUS_LABELS: Record<TicketStatus, string> = {
   'open': 'Abierto',
   'in-progress': 'En proceso',
@@ -18,6 +18,7 @@ const PRIORITY_LABELS: Record<TicketPriority, string> = {
 
 function TicketListPage() {
   const [tickets, setTickets] = useState<Ticket[]>([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     const data = ticketRepository.getAll()
@@ -28,7 +29,15 @@ function TicketListPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>Tickets de soporte</h2>
-        <span className={styles.count}>{tickets.length} tickets</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span className={styles.count}>{tickets.length} tickets</span>
+          <button
+            className={styles.btnPrimary}
+            onClick={() => navigate('/tickets/new')}
+          >
+            + Nuevo ticket
+          </button>
+        </div>
       </div>
 
       <ul className={styles.list}>

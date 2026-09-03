@@ -1,18 +1,21 @@
-import { createBrowserRouter } from "react-router-dom";
-import Layout from "./Layout";
-import TicketListPage from "../features/tickets/pages/TicketListPage";
+import { createBrowserRouter } from 'react-router-dom'
+import Layout from './Layout'
+import TicketListPage from '../features/tickets/pages/TicketListPage'
+import CreateTicketPage from '../features/tickets/pages/CreateTicketPage'
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
         index: true,
-        element: <TicketListPage />
-    },
+        element: <TicketListPage />,
+      },
+      {
+        path: 'tickets/new',
+        element: <CreateTicketPage />,
+      },
     ],
   },
-]);
-
-export default router;
+])
